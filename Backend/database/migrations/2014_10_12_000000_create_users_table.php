@@ -18,7 +18,17 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();
+
+            $table->string('phone_number')->nullable();
+            $table->text('address')->nullable();
+            $table->unsignedTinyInteger('age')->nullable();
+            $table->string('profile_picture')->nullable();
+
             $table->timestamps();
+
+            // Add indexes
+            $table->index('name');
+            $table->index('phone_number');
         });
     }
 
