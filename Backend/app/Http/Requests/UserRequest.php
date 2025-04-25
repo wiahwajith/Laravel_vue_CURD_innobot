@@ -27,7 +27,7 @@ class UserRequest extends FormRequest
             'phone_number' => 'nullable|numeric',
             'address' => 'nullable|string',
             'age' => 'nullable|numeric|min:0|max:150',
-            // 'profile_picture' => 'nullable|file|mimes:jpg,jpeg,png|max:2048', // max 2MB
+            'profile_picture' => 'nullable|file|mimes:jpg,jpeg,png|max:2048',
         ];
     }
 
@@ -40,7 +40,7 @@ class UserRequest extends FormRequest
             'phone_number.numeric' => 'Phone number must be numeric.',
             'age.numeric' => 'Age must be a number.',
             'profile_picture.mimes' => 'Only JPG, JPEG, and PNG files are allowed.',
-            // 'profile_picture.max' => 'Profile picture must not exceed 2MB.',
+            'profile_picture.max' => 'Profile picture must not exceed 2MB.',
         ];
     }
 }

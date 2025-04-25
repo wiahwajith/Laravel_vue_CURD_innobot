@@ -13,36 +13,78 @@ class UserService
         $this->userRepository = $userRepository;
     }
 
-    public function getAllUsersPaginated($perPage = 10)
+    /**
+     * Get all users paginated
+     *
+     * @param int $perPage
+     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
+     */
+    public function getAllUsersPaginated(int $perPage = 10)
     {
         return $this->userRepository->paginate($perPage);
     }
 
-    public function findUserById($id)
+    /**
+     * Find a user by ID
+     *
+     * @param int $id
+     * @return mixed
+     */
+    public function findUserById(int $id)
     {
         return $this->userRepository->find($id);
     }
 
+    /**
+     * Create a user
+     *
+     * @param array $data
+     * @return mixed
+     */
     public function createUser(array $data)
     {
-        if (isset($data['profile_picture'])) {
-            $data['profile_picture'] = $data['profile_picture']->store('profile_pictures', 'public');
-        }
+        $data['profile_picture'] = $this->handleProfilePicture($data['profile_picture'] ?? null);
 
         return $this->userRepository->create($data);
     }
 
-    public function updateUser($id, array $data)
+    /**
+     * Update user information
+     *
+     * @param int $id
+     * @param array $data
+     * @return mixed
+     */
+    public function updateUser(int $id, array $data)
     {
-        if (isset($data['profile_picture'])) {
-            $data['profile_picture'] = $data['profile_picture']->store('profile_pictures', 'public');
-        }
+        $data['profile_picture'] = $this->handleProfilePicture($data['profile_picture'] ?? null);
 
         return $this->userRepository->update($id, $data);
     }
 
-    public function deleteUser($id)
+    /**
+     * Delete user by ID
+     *
+     * @param int $id
+     * @return bool
+     */
+    public function deleteUser(int $id)
     {
         return $this->userRepository->delete($id);
+    }
+
+    /**
+     * Handle profile picture upload if exists
+     *
+     * @param mixed $profilePicture
+     * @return string|null
+     */
+    private function handleProfilePicture($profilePicture): ?string
+    {
+        if ($profilePicture) {
+            return $profilePicture->store('profile_pictures', 'public');
+        }
+
+        return null;
     }
 }
